@@ -33,7 +33,8 @@ Not implemented features:
 ## Usage
 
 This module needs to be hooked into the Minimig core, in the Zorro II memory space.
-For this the autoconfig needs to be configured, providing the Kickstart with the information it needs to assign a memory region (64kb wide).
+For this the autoconfig process needs to be configured, providing the Kickstart with the information it needs to assign a memory region (64kb wide).
+In the Minimig core this means add an extra entry to handle the Toccata sound card.
 
 The configuration I use for the Toccata auto configuration ROM is:
 
@@ -53,6 +54,27 @@ ram[sndbase+'h14/2] = 4'b1010;
 ram[sndbase+'h16/2] = 4'b1011;
 ```
 
+When the Toccata sound card is the first Zorro II IO card it ends up on memory address $e90000, after autoconfiguration is completed.
+
+For a full integration example take a look at the [OpenAARS Minimig](https://github.com/ranzbak/MinimigAGA_TC64/tree/v5.0/rtl/openaars/toccata) project.
+
+## Testing
+
+Because this module is part of my Minimig project, I was able to test the module with :
+
+- AHI sound drivers
+- Eagle player 2.06 both AHI and Toccata amplifier.
+- Hippo player via the AHI sound driver
+- Octamed sound studio using the Toccata sound 16bit ++ output.
+
+The programs above played back audio correctly, although some weird behaviour was observed when applying effects to the audio streams, not sure if this because of software errors or bugs in this module.
+
 ## Contributing
 
+If there are things that are missing, should be improved or fixed, please create a pull request.
+
 ## License
+
+BSD-2-Clause "Simplified" License
+
+- Also if you like this project, and you run into me at some nerd event buy me a coffee / Club mate :-)
