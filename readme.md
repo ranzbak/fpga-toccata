@@ -68,14 +68,14 @@ The Toccata sound card has 4 address ranges that allow interaction with the card
 Since only bits 14, 13 and 11 are evaluated on the address bus, the ranges are bigger than documented here, generally the driver libraries use the address as listed below.
 | Address space start | bits 14 | bits 13 | bits 11 | high/low byte | function |
 | --- | --- | --- | --- | --- | --- |
-| 0x0000 | 0 | 0 | 0 | h + l | Control register, to start and stop playing |
+| 0x0000 | 0 | 0 | 0 | h + l | read: Control register, write: status register  |
 | 0x2000 | 0 | 0 | 1 | l | Write to playback sample buffer / read from record buffer |
 | 0x6000 | 1 | 1 | 0 | l | Set the index for the indirect AD1848 registers |
 | 0x6800 | 1 | 1 | 1| l | Read / Write to the indirect AD1848 registers pointed by index |
 
 The Indirect AD1848 registers are documented in the AD1848 datasheet.
 
-The Toccata control register bits have the following function 0x0000:
+The Toccata control register bits 0x0000 (write):
 
 | Bit number | Description |
 | --- | --- |
@@ -87,6 +87,16 @@ The Toccata control register bits have the following function 0x0000:
 | 5 | Could not find in the UAE source code so ??? |
 | 6 | Record int Enable, start generating interrupt when the FIFO is half full |
 | 7 | Playback int Enable, start generating interrupt when the FIFO is half empty |
+
+The Toccata status register bits 0x0000 (read):
+
+| Bit number | Description |
+| --- | --- |
+| 2 | Recording FIFO is half full |
+| 3 | Playback FIFO is half empty |
+| 7 | (inverted) Interrupt pending |
+
+The functions of the other bits I could not find, and are not needed for sound playback.
 
 ## Audio output format
 
